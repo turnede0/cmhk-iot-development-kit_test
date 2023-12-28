@@ -28,8 +28,6 @@ enum oma_object_subid {
  * CMHK blocks
  */
 //% color=#27b0ba icon="\uf26c" groups='["NB-IoT", "MQTT"]'
-
-
 namespace CMHK {
 
 
