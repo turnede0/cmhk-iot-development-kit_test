@@ -1,5 +1,6 @@
 {
     "name": "CMHK IoT Development Kit",
+    "version": "0.0.1",
     "description": "",
     "dependencies": {
         "core": "*",
