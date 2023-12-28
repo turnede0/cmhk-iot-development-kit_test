@@ -23,7 +23,12 @@ enum oma_object_subid {
     //% block="year" 
     YEAR = 3340,
 }
-namespace cmhk {
+
+/**
+ * CMHK blocks
+ */
+//% color=#27b0ba icon="\uf26c" groups='["NB-IoT", "MQTT"]'
+namespace CMHK {
 
 
     /**
