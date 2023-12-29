@@ -532,7 +532,7 @@ namespace CMHK {
        * 以及防止在每一句輸出前填寫空白符號
        */
 
-    //% blockId="mqtt_check_ver" block="OneNET 通訊起始設定"
+    //% blockId="onenet_uart_begin" block="OneNET 通訊起始設定"
     //% group="Serial"
     export function onenet_uart_begin(): void {
         serial.setRxBufferSize(128)
