@@ -367,11 +367,15 @@ namespace CMHK {
     //% autoConnect.defl=true
     export function mqtt_master_setup(ssid: string, password: string, pid: number, did: number, dpw: string, autoConnect: boolean): void {
         mqtt_wifi_ssid(ssid)
+        basic.pause(100)
         mqtt_wifi_pw(password)
+        basic.pause(100)
         mqtt_set_pid(pid)
+        basic.pause(100)
         mqtt_set_did(did)
+        basic.pause(100)
         mqtt_set_dpw(dpw)
-
+        basic.pause(100)
         if(autoConnect){
             mqtt_wifi_conn(5)
             basic.pause(500)
