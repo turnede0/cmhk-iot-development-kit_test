@@ -1,3 +1,4 @@
+let nb_iot_waitTime = 500
 enum oma_object {
     //% block="數字輸出"
     Digital_Output = 3201,
@@ -23,9 +24,11 @@ enum oma_object_subid {
     //% block="year" 
     YEAR = 3340,
 }
+/**
+* CMHK blocks
+*/
+//% color=#27b0ba icon="\uf26c" groups='["NB-IoT", "MQTT","Serial"]'
 namespace CMHK {
-
-
     /**
      * 向 NB-IoT 模塊請求 IMSI
      */
@@ -38,6 +41,7 @@ namespace CMHK {
             BaudRate.BaudRate9600
         )
         serial.writeLine("AT+CIMI")
+        basic.pause(nb_iot_waitTime)
     }
 
     /**
@@ -52,6 +56,7 @@ namespace CMHK {
             BaudRate.BaudRate9600
         )
         serial.writeLine("AT+CGSN=1")
+        basic.pause(nb_iot_waitTime)
     }
 
 
@@ -60,7 +65,6 @@ namespace CMHK {
      */
     //% blockId="nb_check_signal" block="檢查信號強度"
     //% group="NB-IoT"
-    
     export function checkSignal(): void {
         serial.redirect(
             SerialPin.P12,
@@ -68,6 +72,7 @@ namespace CMHK {
             BaudRate.BaudRate9600
         )
         serial.writeLine("AT+CSQ")
+        basic.pause(nb_iot_waitTime)
     }
 
     /**
@@ -82,14 +87,14 @@ namespace CMHK {
             BaudRate.BaudRate9600
         )
         serial.writeLine("AT+MIPLCREATE")
+        basic.pause(nb_iot_waitTime)
     }
 
     /**
      * NB-IoT 打開連接
      * @param value describe value here, eg: 60
      */
-
-    //% blockId="nb_open_connection" block="NB-IoT 打開連接 %value 秒"
+    //% blockId="nb_open_conn" block="NB-IoT 打開連接 %value 秒"
     //% group="NB-IoT"
     export function nb_open_connection(value: number): void {
         serial.redirect(
@@ -98,14 +103,14 @@ namespace CMHK {
             BaudRate.BaudRate9600
         )
         serial.writeLine("AT+MIPLOPEN=0," + value)
+        basic.pause(5000)
     }
 
     /**
      * NB-IoT 更新連接
      * @param value describe value here, eg: 120
      */
-
-    //% blockId="nb_update_connection" block="NB-IoT 更新連接 %value 秒"
+    //% blockId="nb_open_conn" block="NB-IoT 更新連接 %value 秒"
     //% group="NB-IoT"
     export function nb_update_connection(value: number): void {
         serial.redirect(
@@ -114,12 +119,12 @@ namespace CMHK {
             BaudRate.BaudRate9600
         )
         serial.writeLine("AT+MIPLUPDATE=0," + value + ", 0")
+        basic.pause(nb_iot_waitTime)
     }
 
     /**
- * NB-IoT 關閉連接
- */
-
+     * NB-IoT 關閉連接
+     */
     //% blockId="nb_close_conn" block="NB-IoT 關閉連接"
     //% group="NB-IoT"
     export function nb_close_connection(): void {
@@ -129,6 +134,22 @@ namespace CMHK {
             BaudRate.BaudRate9600
         )
         serial.writeLine("AT+MIPLCLOSE=0")
+        basic.pause(nb_iot_waitTime)
+    }
+
+    /**
+     * NB-IoT 軟件重啟
+     */
+    //% blockId="nb_oft_reset" block="NB-IoT 軟件重啟"
+    //% group="NB-IoT"
+    export function nb_soft_reset(): void {
+        serial.redirect(
+            SerialPin.P12,
+            SerialPin.P8,
+            BaudRate.BaudRate9600
+        )
+        serial.writeLine("AT+CMRB")
+        basic.pause(5000)
     }
 
 
@@ -136,36 +157,42 @@ namespace CMHK {
 
     /**
      * NB-IoT 添加對象
-     * @param value describe value here, eg: 5
+     * @param e describe parameter here
      */
 
-    //% blockId="nb_add_obj" block="NB-IoT 添加對象"
+    //% blockId="nb_add_obj" block="NB-IoT 添加對象 %e "
     //% group="NB-IoT"
-    export function nb_add_obj(): void {
+    export function nb_add_obj(e: oma_object): void {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
             BaudRate.BaudRate9600
         )
-        serial.writeLine("AT+MIPLADDOBJ=0, 3304, 2, \"11\", 0, 0")
+        serial.writeLine("AT+MIPLADDOBJ=0, " + e + ", 1, \"1\", 0, 0")
+        basic.pause(nb_iot_waitTime)
     }
 
 
     /**
      * NB-IoT 通知對象
+     * @param e describe parameter here
      * @param value describe value here, eg: 5
      */
 
-    //% blockId="nb_notify_obj" block="NB-IoT 通知對象 %value"
+    //% blockId="nb_notify_obj" block="NB-IoT 通知對象 %e %value"
     //% group="NB-IoT"
-    export function nb_notify_obj(value: number): void {
+    export function nb_notify_obj(e: oma_object, value: number): void {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
             BaudRate.BaudRate9600
         )
-        serial.writeLine("AT+MIPLNOTIFY=0,0,3304,0,5700,4,4," + value + ",0,0")
+        serial.writeLine("AT+MIPLNOTIFY=0,0," + e + ",0,5700,4,4," + value + ",0,0")
+        basic.pause(nb_iot_waitTime)
     }
+
+
+
 
 
     /**
@@ -278,6 +305,7 @@ namespace CMHK {
      */
     //% blockId="mqtt_check_winfo" block="MQTT 檢視設備Wi-Fi信息"
     //% group="MQTT"
+    //% advanced=true
     export function mqtt_check_winfo(): void {
         serial.redirect(
             SerialPin.P12,
@@ -292,6 +320,7 @@ namespace CMHK {
      */
     //% blockId="mqtt_check_gpid" block="MQTT 檢視產品ID"
     //% group="MQTT"
+    //% advanced=true
     export function mqtt_check_gpid(): void {
         serial.redirect(
             SerialPin.P12,
@@ -305,6 +334,7 @@ namespace CMHK {
  */
     //% blockId="mqtt_check_gdid" block="MQTT 檢視設備ID"
     //% group="MQTT"
+    //% advanced=true
     export function mqtt_check_gdid(): void {
         serial.redirect(
             SerialPin.P12,
@@ -318,6 +348,7 @@ namespace CMHK {
  */
     //% blockId="mqtt_check_gdpw" block="MQTT 檢視設備鑒權密碼"
     //% group="MQTT"
+    //% advanced=true
     export function mqtt_check_gdpw(): void {
         serial.redirect(
             SerialPin.P12,
@@ -353,6 +384,7 @@ namespace CMHK {
 
     //% blockId="mqtt_check_wificonn" block="MQTT 檢查WiFi連接"
     //% group="MQTT"
+    //% advanced=true
     export function mqtt_check_wificonn(): void {
         serial.redirect(
             SerialPin.P12,
@@ -420,6 +452,7 @@ namespace CMHK {
 
     //% blockId="mqtt_restart" block="MQTT 模塊重啟"
     //% group="MQTT"
+    //% advanced=true
     export function mqtt_restart(): void {
         serial.redirect(
             SerialPin.P12,
@@ -436,6 +469,7 @@ namespace CMHK {
 
     //% blockId="mqtt_check_ver" block="檢查 MQTT 模塊版本"
     //% group="MQTT"
+    //% advanced=true
     export function mqtt_check_ver(): void {
         serial.redirect(
             SerialPin.P12,
@@ -451,6 +485,7 @@ namespace CMHK {
         */
     //% blockId="mqtt_check_mconn" block="檢查 MQTT 上線狀態"
     //% group="MQTT"
+    //% advanced=true
     export function mqtt_check_mconn(): void {
         serial.redirect(
             SerialPin.P12,
@@ -489,6 +524,19 @@ namespace CMHK {
             mqtt_onenet_conn(5)
             basic.pause(500)
         }
+    }
+
+    /**
+       * OneNET 通訊起始設定
+       * 接收的緩衝空間預設為128,若更多或會使Micro:bit運作不正常
+       * 以及防止在每一句輸出前填寫空白符號
+       */
+
+    //% blockId="mqtt_check_ver" block="OneNET 通訊起始設定"
+    //% group="Serial"
+    export function onenet_uart_begin(): void {
+        serial.setRxBufferSize(128)
+        serial.setWriteLinePadding(0)
     }
 
 
