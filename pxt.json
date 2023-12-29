@@ -21,6 +21,6 @@
     "supportedTargets": [
         "microbit"
     ],
-    "preferredEditor": "tsprj",
+    "preferredEditor": "blocksprj",
     "icon": "https://github.com/turnede0/cmhk-iot-development-kit_test/blob/master/CMHK%20IoT%20Kit%20Logo.png?raw=true"
 }

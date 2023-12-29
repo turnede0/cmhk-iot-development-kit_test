@@ -23,11 +23,6 @@ enum oma_object_subid {
     //% block="year" 
     YEAR = 3340,
 }
-/**
-* CMHK blocks
-*/
-//% color=#27b0ba icon="\uf26c" groups='["NB-IoT", "MQTT"]'
-//% advanced=true
 namespace CMHK {
 
 
@@ -265,13 +260,76 @@ namespace CMHK {
     //% blockId="mqtt_check_info" block="MQTT 檢視設備信息"
     //% group="MQTT"
     export function mqtt_check_info(): void {
+
+        mqtt_check_winfo()
+        basic.pause(100)
+        mqtt_check_gpid()
+        basic.pause(100)
+        mqtt_check_gdid()
+        basic.pause(100)
+        mqtt_check_gdpw()
+
+
+
+    }
+    
+    /**
+     * MQTT 檢視設備Wi-Fi信息 
+     */
+    //% blockId="mqtt_check_winfo" block="MQTT 檢視設備Wi-Fi信息"
+    //% group="MQTT"
+    export function mqtt_check_winfo(): void {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
             BaudRate.BaudRate9600
         )
-        serial.writeLine("AT+INFO?")
+        serial.writeLine("AT+WINFO?")  
     }
+
+    /**
+     * MQTT 檢視產品ID
+     */
+    //% blockId="mqtt_check_gpid" block="MQTT 檢視產品ID"
+    //% group="MQTT"
+    export function mqtt_check_gpid(): void {
+        serial.redirect(
+            SerialPin.P12,
+            SerialPin.P8,
+            BaudRate.BaudRate9600
+        )
+        serial.writeLine("AT+GPID?")
+    }
+    /**
+ * MQTT 檢視設備ID
+ */
+    //% blockId="mqtt_check_gdid" block="MQTT 檢視設備ID"
+    //% group="MQTT"
+    export function mqtt_check_gdid(): void {
+        serial.redirect(
+            SerialPin.P12,
+            SerialPin.P8,
+            BaudRate.BaudRate9600
+        )
+        serial.writeLine("AT+GDID?")
+    }
+    /**
+ * MQTT 檢視設備鑒權密碼
+ */
+    //% blockId="mqtt_check_gdpw" block="MQTT 檢視設備鑒權密碼"
+    //% group="MQTT"
+    export function mqtt_check_gdpw(): void {
+        serial.redirect(
+            SerialPin.P12,
+            SerialPin.P8,
+            BaudRate.BaudRate9600
+        )
+        serial.writeLine("AT+GDPW?")
+    }
+
+
+
+    
 
     /**
      * MQTT 連接WiFi 
@@ -353,6 +411,55 @@ namespace CMHK {
         }
         return ""
     }
+
+
+    /**
+        * MQTT 模塊重啟 
+        * 強制重新啟動MQTT模組
+        */
+
+    //% blockId="mqtt_restart" block="MQTT 模塊重啟"
+    //% group="MQTT"
+    export function mqtt_restart(): void {
+        serial.redirect(
+            SerialPin.P12,
+            SerialPin.P8,
+            BaudRate.BaudRate9600
+        )
+        serial.writeLine("AT+RES" )
+    }
+
+    /**
+        * MQTT 模塊版本 
+        * 檢查 MQTT 模塊版本
+        */
+
+    //% blockId="mqtt_check_ver" block="檢查 MQTT 模塊版本"
+    //% group="MQTT"
+    export function mqtt_check_ver(): void {
+        serial.redirect(
+            SerialPin.P12,
+            SerialPin.P8,
+            BaudRate.BaudRate9600
+        )
+        serial.writeLine("AT+VER?")
+    }
+
+
+    /**
+        * MQTT 檢查上線狀態 
+        */
+    //% blockId="mqtt_check_mconn" block="檢查 MQTT 上線狀態"
+    //% group="MQTT"
+    export function mqtt_check_mconn(): void {
+        serial.redirect(
+            SerialPin.P12,
+            SerialPin.P8,
+            BaudRate.BaudRate9600
+        )
+        serial.writeLine("AT+MQTT?")
+    }
+
 
     /**
            * 設定所有MQTT信息 
