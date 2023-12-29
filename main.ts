@@ -23,11 +23,11 @@ enum oma_object_subid {
     //% block="year" 
     YEAR = 3340,
 }
-
 /**
- * CMHK blocks
- */
+* CMHK blocks
+*/
 //% color=#27b0ba icon="\uf26c" groups='["NB-IoT", "MQTT"]'
+//% advanced=true
 namespace CMHK {
 
 
@@ -65,6 +65,7 @@ namespace CMHK {
      */
     //% blockId="nb_check_signal" block="檢查信號強度"
     //% group="NB-IoT"
+    
     export function checkSignal(): void {
         serial.redirect(
             SerialPin.P12,
@@ -179,6 +180,7 @@ namespace CMHK {
 
     //% blockId="mqtt_wifi_ssid" block="MQTT 設定 WiFi SSID: %value"
     //% group="MQTT"
+    //% advanced=true
     export function mqtt_wifi_ssid(value: string): void {
         serial.redirect(
             SerialPin.P12,
@@ -195,6 +197,7 @@ namespace CMHK {
 
     //% blockId="mqtt_wifi_pw" block="MQTT 設定 WiFi 密碼: %value"
     //% group="MQTT"
+    //% advanced=true
     export function mqtt_wifi_pw(value: string): void {
         serial.redirect(
             SerialPin.P12,
@@ -211,6 +214,7 @@ namespace CMHK {
 
     //% blockId="mqtt_set_pid" block="MQTT 設定產品ID: %value"
     //% group="MQTT"
+    //% advanced=true
     export function mqtt_set_pid(value: number): void {
         serial.redirect(
             SerialPin.P12,
@@ -227,6 +231,7 @@ namespace CMHK {
 
     //% blockId="mqtt_set_did" block="MQTT 設定設備ID: %value"
     //% group="MQTT"
+    //% advanced=true
     export function mqtt_set_did(value: number): void {
         serial.redirect(
             SerialPin.P12,
@@ -242,7 +247,8 @@ namespace CMHK {
           */
 
     //% blockId="mqtt_set_dpw" block="MQTT 設定鑒權密碼: %value"
-    //% group="MQTT"v
+    //% group="MQTT"
+    //% advanced=true
     export function mqtt_set_dpw(value: string): void {
         serial.redirect(
             SerialPin.P12,
@@ -347,5 +353,32 @@ namespace CMHK {
         }
         return ""
     }
+
+    /**
+           * 設定所有MQTT信息 
+           * @param ssid Wi-Fi名稱, eg: "Wi-Fi_Name"
+           * @param password Wi-Fi 密碼, eg: "Wi-Fi_Password"
+           * @param pid 產品ID, eg: "16001111"
+           * @param did 設備ID, eg: "161200005"
+           * @param dpw 鑒權密碼, eg: "device_pw"
+           * @param autoConnect 是否需要設定後馬上進行連接?
+           */
+    //% blockId="mqtt_master_setup" block="設定MQTT信息|Wi-Fi SSID $ssid|Wi-Fi 密碼 $password|產品ID $pid|設備ID $did|鑒權密碼 $dpw|自動連接 $autoConnect"
+    //% autoConnect.defl=true
+    export function mqtt_master_setup(ssid: string, password: string, pid: number, did: number, dpw: string, autoConnect: boolean): void {
+        mqtt_wifi_ssid(ssid)
+        mqtt_wifi_pw(password)
+        mqtt_set_pid(pid)
+        mqtt_set_did(did)
+        mqtt_set_dpw(dpw)
+
+        if(autoConnect){
+            mqtt_wifi_conn(5)
+            basic.pause(500)
+            mqtt_onenet_conn(5)
+            basic.pause(500)
+        }
+    }
+
 
 }
