@@ -516,6 +516,7 @@ namespace CMHK {
            */
     //% blockId="mqtt_master_setup" block="設定MQTT信息|Wi-Fi SSID $ssid|Wi-Fi 密碼 $password|產品ID $pid|設備ID $did|鑒權密碼 $dpw|自動連接 $autoConnect"
     //% autoConnect.defl=true
+    //% group="MQTT"
     export function mqtt_master_setup(ssid: string, password: string, pid: number, did: number, dpw: string, autoConnect: boolean): void {
         mqtt_wifi_ssid(ssid)
         basic.pause(100)
