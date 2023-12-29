@@ -12,8 +12,10 @@ enum oma_object {
     Presence = 3302,
     //% block="溫度"
     Temperature = 3303,
+    //% block=" 濕度"
+    Humidity = 3304,
     //% block="功率測量"
-    Power_Measurement = 3302,
+    Power_Measurement = 3305,
 
 }
 enum oma_object_subid {
@@ -24,10 +26,17 @@ enum oma_object_subid {
     //% block="year" 
     YEAR = 3340,
 }
+enum DHT11_Option {
+    //% block="溫度" 
+    Temperature = 0,
+
+    //% block=" 濕度" 
+    Humidity = 1,
+}
 /**
 * CMHK blocks
 */
-//% color=#27b0ba icon="\uf26c" groups='["NB-IoT", "MQTT","Serial"]'
+//% color=#27b0ba icon="\uf26c" groups='["NB-IoT", "MQTT","Serial","Sensor"]'
 namespace CMHK {
     /**
      * 向 NB-IoT 模塊請求 IMSI
@@ -94,7 +103,7 @@ namespace CMHK {
      * NB-IoT 打開連接
      * @param value describe value here, eg: 60
      */
-    //% blockId="nb_open_conn" block="NB-IoT 打開連接 %value 秒"
+    //% blockId="nb_open_connection" block="NB-IoT 打開連接 %value 秒"
     //% group="NB-IoT"
     export function nb_open_connection(value: number): void {
         serial.redirect(
@@ -110,7 +119,7 @@ namespace CMHK {
      * NB-IoT 更新連接
      * @param value describe value here, eg: 120
      */
-    //% blockId="nb_open_conn" block="NB-IoT 更新連接 %value 秒"
+    //% blockId="nb_update_connection" block="NB-IoT 更新連接 %value 秒"
     //% group="NB-IoT"
     export function nb_update_connection(value: number): void {
         serial.redirect(
@@ -125,7 +134,7 @@ namespace CMHK {
     /**
      * NB-IoT 關閉連接
      */
-    //% blockId="nb_close_conn" block="NB-IoT 關閉連接"
+    //% blockId="nb_close_connection" block="NB-IoT 關閉連接"
     //% group="NB-IoT"
     export function nb_close_connection(): void {
         serial.redirect(
@@ -140,7 +149,7 @@ namespace CMHK {
     /**
      * NB-IoT 軟件重啟
      */
-    //% blockId="nb_oft_reset" block="NB-IoT 軟件重啟"
+    //% blockId="nb_soft_reset" block="NB-IoT 軟件重啟"
     //% group="NB-IoT"
     export function nb_soft_reset(): void {
         serial.redirect(
@@ -535,9 +544,138 @@ namespace CMHK {
     //% blockId="onenet_uart_begin" block="OneNET 通訊起始設定"
     //% group="Serial"
     export function onenet_uart_begin(): void {
+        serial.redirect(
+            SerialPin.P12,
+            SerialPin.P8,
+            BaudRate.BaudRate9600
+        )
         serial.setRxBufferSize(128)
         serial.setWriteLinePadding(0)
     }
+
+
+    /**
+       * 把串口轉接向OneNet通訊模組
+       * 接收的緩衝空間預設為128,若更多或會使Micro:bit運作不正常
+       * 以及防止在每一句輸出前填寫空白符號
+       */
+
+    //% blockId="onenet_uart_redirect" block="把串口轉接向OneNet通訊模組"
+    //% group="Serial"
+    export function onenet_uart_redirect(): void {
+        serial.redirect(
+            SerialPin.P12,
+            SerialPin.P8,
+            BaudRate.BaudRate9600
+        )
+    }
+
+    let dht11Humidity = 0
+    let dht11Temperature = 0
+
+    /**
+     * 獲取DHT11數據
+     * @param option 選擇所需的數據, eg: DHT11_Option.Temperature
+     * @param option 選擇所連接的針腳, eg: DigitalPin.P14
+     */
+    //% blockId="sensor_dht11_get" block="獲取DHT11數據 %option| 連接針腳 %pin"
+    //% color=#ff7a4b
+    //% group="Sensor"
+    export function sensor_dht11_get(option: DHT11_Option, pin: DigitalPin): number {
+        const DHT11_TIMEOUT = 100
+        const buffer = pins.createBuffer(40)
+        const data = [0, 0, 0, 0, 0]
+        let startTime = control.micros()
+
+        if (control.hardwareVersion().slice(0, 1) !== '1') { // V2
+            // // pins.digitalReadPin(DigitalPin.P0);
+            pins.digitalReadPin(DigitalPin.P1);
+            pins.digitalReadPin(DigitalPin.P2);
+            pins.digitalReadPin(DigitalPin.P3);
+            pins.digitalReadPin(DigitalPin.P4);
+            pins.digitalReadPin(DigitalPin.P10);
+
+            // 1.start signal
+            pins.digitalWritePin(pin, 0)
+            basic.pause(18)
+
+            // 2.pull up and wait 40us
+            pins.setPull(pin, PinPullMode.PullUp)
+            pins.digitalReadPin(pin)
+            control.waitMicros(40)
+
+            // 3.read data
+            startTime = control.micros()
+            while (pins.digitalReadPin(pin) === 0) {
+                if (control.micros() - startTime > DHT11_TIMEOUT) break
+            }
+            startTime = control.micros()
+            while (pins.digitalReadPin(pin) === 1) {
+                if (control.micros() - startTime > DHT11_TIMEOUT) break
+            }
+
+            for (let dataBits = 0; dataBits < 40; dataBits++) {
+                startTime = control.micros()
+                while (pins.digitalReadPin(pin) === 1) {
+                    if (control.micros() - startTime > DHT11_TIMEOUT) break
+                }
+                startTime = control.micros()
+                while (pins.digitalReadPin(pin) === 0) {
+                    if (control.micros() - startTime > DHT11_TIMEOUT) break
+                }
+                control.waitMicros(28)
+                if (pins.digitalReadPin(pin) === 1) {
+                    buffer[dataBits] = 1
+                }
+            }
+        } else { // V1
+            // 1.start signal
+            pins.digitalWritePin(pin, 0)
+            basic.pause(18)
+
+            // 2.pull up and wait 40us
+            pins.setPull(pin, PinPullMode.PullUp)
+            pins.digitalReadPin(pin)
+            control.waitMicros(40)
+
+            // 3.read data
+            if (pins.digitalReadPin(pin) === 0) {
+                while (pins.digitalReadPin(pin) === 0);
+                while (pins.digitalReadPin(pin) === 1);
+
+                for (let dataBits2 = 0; dataBits2 < 40; dataBits2++) {
+                    while (pins.digitalReadPin(pin) === 1);
+                    while (pins.digitalReadPin(pin) === 0);
+                    control.waitMicros(28)
+                    if (pins.digitalReadPin(pin) === 1) {
+                        buffer[dataBits2] = 1
+                    }
+                }
+            }
+        }
+
+        for (let i = 0; i < 5; i++) {
+            for (let j = 0; j < 8; j++) {
+                if (buffer[8 * i + j] === 1) {
+                    data[i] += 2 ** (7 - j)
+                }
+            }
+        }
+
+        if (((data[0] + data[1] + data[2] + data[3]) & 0xff) === data[4]) {
+            dht11Humidity = data[0] + data[1] * 0.1
+            dht11Temperature = data[2] + data[3] * 0.1
+        }
+
+        switch (option) {
+            case DHT11_Option.Temperature:
+                return dht11Temperature
+            case DHT11_Option.Humidity:
+                return dht11Humidity
+        }
+    }
+
+    
 
 
 }
