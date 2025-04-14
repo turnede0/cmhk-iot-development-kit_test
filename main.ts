@@ -248,7 +248,7 @@ namespace CMHK {
     //% blockId="mqtt_set_pid" block="MQTT 設定產品ID: %value"
     //% group="MQTT"
     //% advanced=true
-    export function mqtt_set_pid(value: number): void {
+    export function mqtt_set_pid(value: string): void {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
@@ -262,10 +262,10 @@ namespace CMHK {
          * @param value describe value here, eg: "161200005"
          */
 
-    //% blockId="mqtt_set_did" block="MQTT 設定設備ID: %value"
+    //% blockId="mqtt_set_did" block="MQTT 設定設備名稱: %value"
     //% group="MQTT"
     //% advanced=true
-    export function mqtt_set_did(value: number): void {
+    export function mqtt_set_did(value: string): void {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
@@ -519,7 +519,7 @@ namespace CMHK {
     //% blockId="mqtt_master_setup" block="設定MQTT信息|Wi-Fi SSID $ssid|Wi-Fi 密碼 $password|產品ID $pid|設備ID $did|鑒權密碼 $dpw|自動連接 $autoConnect"
     //% autoConnect.defl=true
     //% group="MQTT"
-    export function mqtt_master_setup(ssid: string, password: string, pid: number, did: number, dpw: string, autoConnect: boolean): void {
+    export function mqtt_master_setup(ssid: string, password: string, pid: string, did: string, dpw: string, autoConnect: boolean): void {
         mqtt_wifi_ssid(ssid)
         basic.pause(100)
         mqtt_wifi_pw(password)
