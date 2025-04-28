@@ -49,7 +49,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate9600
+            BaudRate.BaudRate115200
         )
         serial.writeLine("AT+CIMI")
         basic.pause(nb_iot_waitTime)
@@ -64,7 +64,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate9600
+            BaudRate.BaudRate115200
         )
         serial.writeLine("AT+CGSN=1")
         basic.pause(nb_iot_waitTime)
@@ -80,7 +80,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate9600
+            BaudRate.BaudRate115200
         )
         serial.writeLine("AT+CSQ")
         basic.pause(nb_iot_waitTime)
@@ -95,7 +95,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate9600
+            BaudRate.BaudRate115200
         )
         serial.writeLine("AT+MIPLCREATE")
         basic.pause(nb_iot_waitTime)
@@ -111,7 +111,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate9600
+            BaudRate.BaudRate115200
         )
         serial.writeLine("AT+MIPLOPEN=0," + value)
         basic.pause(5000)
@@ -127,7 +127,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate9600
+            BaudRate.BaudRate115200
         )
         serial.writeLine("AT+MIPLUPDATE=0," + value + ", 0")
         basic.pause(nb_iot_waitTime)
@@ -142,7 +142,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate9600
+            BaudRate.BaudRate115200
         )
         serial.writeLine("AT+MIPLCLOSE=0")
         basic.pause(nb_iot_waitTime)
@@ -157,7 +157,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate9600
+            BaudRate.BaudRate115200
         )
         serial.writeLine("AT+CMRB")
         basic.pause(5000)
@@ -177,7 +177,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate9600
+            BaudRate.BaudRate115200
         )
         serial.writeLine("AT+MIPLADDOBJ=0, " + e + ", 1, \"1\", 0, 0")
         basic.pause(nb_iot_waitTime)
@@ -196,7 +196,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate9600
+            BaudRate.BaudRate115200
         )
         serial.writeLine("AT+MIPLNOTIFY=0,0," + e + ",0,5700,4,4," + value + ",0,0")
         basic.pause(nb_iot_waitTime)
@@ -218,7 +218,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate9600
+            BaudRate.BaudRate115200
         )
         serial.writeLine("AT+SSID=" + value)
     }
@@ -235,7 +235,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate9600
+            BaudRate.BaudRate115200
         )
         serial.writeLine("AT+PW=" + value)
     }
@@ -252,7 +252,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate9600
+            BaudRate.BaudRate115200
         )
         serial.writeLine("AT+PID=" + value)
     }
@@ -269,7 +269,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate9600
+            BaudRate.BaudRate115200
         )
         serial.writeLine("AT+DID=" + value)
     }
@@ -286,7 +286,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate9600
+            BaudRate.BaudRate115200
         )
         serial.writeLine("AT+DPW=" + value)
     }
@@ -321,7 +321,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate9600
+            BaudRate.BaudRate115200
         )
         serial.writeLine("AT+WINFO?")  
     }
@@ -336,7 +336,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate9600
+            BaudRate.BaudRate115200
         )
         serial.writeLine("AT+GPID?")
     }
@@ -350,7 +350,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate9600
+            BaudRate.BaudRate115200
         )
         serial.writeLine("AT+GDID?")
     }
@@ -364,7 +364,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate9600
+            BaudRate.BaudRate115200
         )
         serial.writeLine("AT+GDPW?")
     }
@@ -384,7 +384,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate9600
+            BaudRate.BaudRate115200
         )
         serial.writeLine("AT+CONN=" + value)
     }
@@ -400,7 +400,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate9600
+            BaudRate.BaudRate115200
         )
         serial.writeLine("AT+CONN?")
     }
@@ -417,7 +417,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate9600
+            BaudRate.BaudRate115200
         )
         serial.writeLine("AT+MQTTCONN=" + value)
     }
@@ -434,7 +434,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate9600
+            BaudRate.BaudRate115200
         )
         serial.writeLine("AT+SEND=" + topic + "," + value)
     }
@@ -468,7 +468,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate9600
+            BaudRate.BaudRate115200
         )
         serial.writeLine("AT+RES" )
     }
@@ -485,7 +485,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate9600
+            BaudRate.BaudRate115200
         )
         serial.writeLine("AT+VER?")
     }
@@ -501,7 +501,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate9600
+            BaudRate.BaudRate115200
         )
         serial.writeLine("AT+MQTT?")
     }
@@ -550,7 +550,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate9600
+            BaudRate.BaudRate115200
         )
         serial.setRxBufferSize(128)
         serial.setWriteLinePadding(0)
@@ -569,7 +569,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate9600
+            BaudRate.BaudRate115200
         )
     }
 
