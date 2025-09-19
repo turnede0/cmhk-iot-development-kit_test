@@ -33,12 +33,6 @@ enum DHT11_Option {
     //% block=" 濕度" 
     Humidity = 1,
 }
-
-/**
-* CMHK blocks
-*/
-//% color=#27b0ba icon="\uf26c" groups='["NB-IoT", "MQTT","Serial","Sensor"]'
-
 namespace CMHK {
     /**
      * 向 NB-IoT 模塊請求 IMSI
@@ -215,11 +209,7 @@ namespace CMHK {
     //% group="MQTT"
     //% advanced=true
     export function mqtt_wifi_ssid(value: string): void {
-        serial.redirect(
-            SerialPin.P12,
-            SerialPin.P8,
-            BaudRate.BaudRate115200
-        )
+        
         serial.writeLine("AT+SSID=" + value)
     }
 
@@ -232,11 +222,7 @@ namespace CMHK {
     //% group="MQTT"
     //% advanced=true
     export function mqtt_wifi_pw(value: string): void {
-        serial.redirect(
-            SerialPin.P12,
-            SerialPin.P8,
-            BaudRate.BaudRate115200
-        )
+        
         serial.writeLine("AT+PW=" + value)
     }
 
@@ -249,11 +235,7 @@ namespace CMHK {
     //% group="MQTT"
     //% advanced=true
     export function mqtt_set_pid(value: string): void {
-        serial.redirect(
-            SerialPin.P12,
-            SerialPin.P8,
-            BaudRate.BaudRate115200
-        )
+        
         serial.writeLine("AT+PID=" + value)
     }
 
@@ -266,11 +248,7 @@ namespace CMHK {
     //% group="MQTT"
     //% advanced=true
     export function mqtt_set_did(value: string): void {
-        serial.redirect(
-            SerialPin.P12,
-            SerialPin.P8,
-            BaudRate.BaudRate115200
-        )
+        
         serial.writeLine("AT+DID=" + value)
     }
 
@@ -283,11 +261,7 @@ namespace CMHK {
     //% group="MQTT"
     //% advanced=true
     export function mqtt_set_dpw(value: string): void {
-        serial.redirect(
-            SerialPin.P12,
-            SerialPin.P8,
-            BaudRate.BaudRate115200
-        )
+        
         serial.writeLine("AT+DPW=" + value)
     }
 
@@ -318,11 +292,7 @@ namespace CMHK {
     //% group="MQTT"
     //% advanced=true
     export function mqtt_check_winfo(): void {
-        serial.redirect(
-            SerialPin.P12,
-            SerialPin.P8,
-            BaudRate.BaudRate115200
-        )
+        
         serial.writeLine("AT+WINFO?")  
     }
 
@@ -333,11 +303,7 @@ namespace CMHK {
     //% group="MQTT"
     //% advanced=true
     export function mqtt_check_gpid(): void {
-        serial.redirect(
-            SerialPin.P12,
-            SerialPin.P8,
-            BaudRate.BaudRate115200
-        )
+        
         serial.writeLine("AT+GPID?")
     }
     /**
@@ -347,11 +313,7 @@ namespace CMHK {
     //% group="MQTT"
     //% advanced=true
     export function mqtt_check_gdid(): void {
-        serial.redirect(
-            SerialPin.P12,
-            SerialPin.P8,
-            BaudRate.BaudRate115200
-        )
+        
         serial.writeLine("AT+GDID?")
     }
     /**
@@ -361,11 +323,7 @@ namespace CMHK {
     //% group="MQTT"
     //% advanced=true
     export function mqtt_check_gdpw(): void {
-        serial.redirect(
-            SerialPin.P12,
-            SerialPin.P8,
-            BaudRate.BaudRate115200
-        )
+        
         serial.writeLine("AT+GDPW?")
     }
 
@@ -381,11 +339,7 @@ namespace CMHK {
     //% blockId="mqtt_wifi_conn" block="MQTT 連接WiFi,嘗試次數 %value"
     //% group="MQTT"
     export function mqtt_wifi_conn(value: number): void {
-        serial.redirect(
-            SerialPin.P12,
-            SerialPin.P8,
-            BaudRate.BaudRate115200
-        )
+        
         serial.writeLine("AT+CONN=" + value)
     }
 
@@ -397,11 +351,7 @@ namespace CMHK {
     //% group="MQTT"
     //% advanced=true
     export function mqtt_check_wificonn(): void {
-        serial.redirect(
-            SerialPin.P12,
-            SerialPin.P8,
-            BaudRate.BaudRate115200
-        )
+        
         serial.writeLine("AT+CONN?")
     }
 
@@ -414,11 +364,7 @@ namespace CMHK {
     //% blockId="mqtt_onenet_conn" block="MQTT 連接OneNET,嘗試次數 %value"
     //% group="MQTT"
     export function mqtt_onenet_conn(value: number): void {
-        serial.redirect(
-            SerialPin.P12,
-            SerialPin.P8,
-            BaudRate.BaudRate115200
-        )
+        
         serial.writeLine("AT+MQTTCONN=" + value)
     }
 
@@ -431,11 +377,7 @@ namespace CMHK {
     //% blockId="mqtt_send_data" block="MQTT 發送主題 %topic 數值為 %value"
     //% group="MQTT"
     export function mqtt_send_data(topic: string, value: number): void {
-        serial.redirect(
-            SerialPin.P12,
-            SerialPin.P8,
-            BaudRate.BaudRate115200
-        )
+        
         serial.writeLine("AT+SEND=" + topic + "," + value)
     }
 
@@ -465,11 +407,7 @@ namespace CMHK {
     //% group="MQTT"
     //% advanced=true
     export function mqtt_restart(): void {
-        serial.redirect(
-            SerialPin.P12,
-            SerialPin.P8,
-            BaudRate.BaudRate115200
-        )
+        
         serial.writeLine("AT+RES" )
     }
 
@@ -498,11 +436,7 @@ namespace CMHK {
     //% group="MQTT"
     //% advanced=true
     export function mqtt_check_mconn(): void {
-        serial.redirect(
-            SerialPin.P12,
-            SerialPin.P8,
-            BaudRate.BaudRate115200
-        )
+        
         serial.writeLine("AT+MQTT?")
     }
 
