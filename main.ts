@@ -40,11 +40,6 @@ namespace CMHK {
     //% blockId="nb_check_imsi" block="請求 IMSI"
     //% group="NB-IoT"
     export function checkImsi(): void {
-        serial.redirect(
-            SerialPin.P12,
-            SerialPin.P8,
-            BaudRate.BaudRate115200
-        )
         serial.writeLine("AT+CIMI")
         basic.pause(nb_iot_waitTime)
     }
@@ -55,11 +50,6 @@ namespace CMHK {
     //% blockId="nb_check_imei" block="請求 IMEI"
     //% group="NB-IoT"
     export function checkImei(): void {
-        serial.redirect(
-            SerialPin.P12,
-            SerialPin.P8,
-            BaudRate.BaudRate115200
-        )
         serial.writeLine("AT+CGSN=1")
         basic.pause(nb_iot_waitTime)
     }
@@ -71,11 +61,6 @@ namespace CMHK {
     //% blockId="nb_check_signal" block="檢查信號強度"
     //% group="NB-IoT"
     export function checkSignal(): void {
-        serial.redirect(
-            SerialPin.P12,
-            SerialPin.P8,
-            BaudRate.BaudRate115200
-        )
         serial.writeLine("AT+CSQ")
         basic.pause(nb_iot_waitTime)
     }
@@ -86,12 +71,7 @@ namespace CMHK {
     //% blockId="nb_miplcreate" block="註冊設備"
     //% group="NB-IoT"
     export function nb_miplcreate(): void {
-        serial.redirect(
-            SerialPin.P12,
-            SerialPin.P8,
-            BaudRate.BaudRate115200
-        )
-        serial.writeLine("AT+MIPLCREATE")
+        serial.writeLine("AT+MIPLCREATEEX=\"47.91.203.179: 5683\",0")
         basic.pause(nb_iot_waitTime)
     }
 
@@ -102,11 +82,6 @@ namespace CMHK {
     //% blockId="nb_open_connection" block="NB-IoT 打開連接 %value 秒"
     //% group="NB-IoT"
     export function nb_open_connection(value: number): void {
-        serial.redirect(
-            SerialPin.P12,
-            SerialPin.P8,
-            BaudRate.BaudRate115200
-        )
         serial.writeLine("AT+MIPLOPEN=0," + value)
         basic.pause(5000)
     }
@@ -118,11 +93,6 @@ namespace CMHK {
     //% blockId="nb_update_connection" block="NB-IoT 更新連接 %value 秒"
     //% group="NB-IoT"
     export function nb_update_connection(value: number): void {
-        serial.redirect(
-            SerialPin.P12,
-            SerialPin.P8,
-            BaudRate.BaudRate115200
-        )
         serial.writeLine("AT+MIPLUPDATE=0," + value + ", 0")
         basic.pause(nb_iot_waitTime)
     }
@@ -133,11 +103,6 @@ namespace CMHK {
     //% blockId="nb_close_connection" block="NB-IoT 關閉連接"
     //% group="NB-IoT"
     export function nb_close_connection(): void {
-        serial.redirect(
-            SerialPin.P12,
-            SerialPin.P8,
-            BaudRate.BaudRate115200
-        )
         serial.writeLine("AT+MIPLCLOSE=0")
         basic.pause(nb_iot_waitTime)
     }
@@ -148,11 +113,6 @@ namespace CMHK {
     //% blockId="nb_soft_reset" block="NB-IoT 軟件重啟"
     //% group="NB-IoT"
     export function nb_soft_reset(): void {
-        serial.redirect(
-            SerialPin.P12,
-            SerialPin.P8,
-            BaudRate.BaudRate115200
-        )
         serial.writeLine("AT+CMRB")
         basic.pause(5000)
     }
@@ -168,11 +128,6 @@ namespace CMHK {
     //% blockId="nb_add_obj" block="NB-IoT 添加對象 %e "
     //% group="NB-IoT"
     export function nb_add_obj(e: oma_object): void {
-        serial.redirect(
-            SerialPin.P12,
-            SerialPin.P8,
-            BaudRate.BaudRate115200
-        )
         serial.writeLine("AT+MIPLADDOBJ=0, " + e + ", 1, \"1\", 0, 0")
         basic.pause(nb_iot_waitTime)
     }
@@ -187,11 +142,6 @@ namespace CMHK {
     //% blockId="nb_notify_obj" block="NB-IoT 通知對象 %e %value"
     //% group="NB-IoT"
     export function nb_notify_obj(e: oma_object, value: number): void {
-        serial.redirect(
-            SerialPin.P12,
-            SerialPin.P8,
-            BaudRate.BaudRate115200
-        )
         serial.writeLine("AT+MIPLNOTIFY=0,0," + e + ",0,5700,4,4," + value + ",0,0")
         basic.pause(nb_iot_waitTime)
     }
@@ -420,11 +370,6 @@ namespace CMHK {
     //% group="MQTT"
     //% advanced=true
     export function mqtt_check_ver(): void {
-        serial.redirect(
-            SerialPin.P12,
-            SerialPin.P8,
-            BaudRate.BaudRate115200
-        )
         serial.writeLine("AT+VER?")
     }
 
@@ -484,7 +429,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate115200
+            BaudRate.BaudRate9600
         )
         serial.setRxBufferSize(128)
         serial.setWriteLinePadding(0)
@@ -503,7 +448,7 @@ namespace CMHK {
         serial.redirect(
             SerialPin.P12,
             SerialPin.P8,
-            BaudRate.BaudRate115200
+            BaudRate.BaudRate9600
         )
     }
 
